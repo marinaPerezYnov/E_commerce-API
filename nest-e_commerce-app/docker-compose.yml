@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  service1:
+    image: your-service1-image
+    ports:
+      - "8081:8081"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db1:5432/service1db
+    depends_on:
+      - db1
+
+  service2:
+    image: your-service2-image
+    ports:
+      - "8082:8082"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db2:5432/service2db
+    depends_on:
+      - db2
+
+  service3:
+    image: your-service3-image
+    ports:
+      - "8083:8083"
+    environment:
+      - DATABASE_URL=mongodb://user:password@db3:27017/service3db
+    depends_on:
+      - db3
+
+  db1:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: service1db
+    volumes:
+      - db1_data:/var/lib/postgresql/data
+
+  db2:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: service2db
+    volumes:
+      - db2_data:/var/lib/postgresql/data
+
+  db3:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - db3_data:/data/db
+
+volumes:
+  db1_data:
+  db2_data:
+  db3_data:
