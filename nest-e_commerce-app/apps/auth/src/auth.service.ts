@@ -23,4 +23,23 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async signUp(username: string, password: string): Promise<{ access_token: string }> {
+    const user = this.usersService.findOne(username);
+
+    if (user) {
+      throw new UnauthorizedException();
+    }
+
+    const newUser = {
+      userId: Date.now(),
+      username,
+      password,
+    };
+
+    const payload = { sub: newUser.userId, username: newUser.username };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 }
