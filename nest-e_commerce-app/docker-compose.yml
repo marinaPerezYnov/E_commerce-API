@@ -1,8 +1,8 @@
 version: '3.8'
-
 services:
+  # PostgreSQL (relationnelle) => User, Shop, Payment 
   service1:
-    image: your-service1-image
+    image: UserManagerImage
     ports:
       - "8081:8081"
     environment:
@@ -11,7 +11,7 @@ services:
       - db1
 
   service2:
-    image: your-service2-image
+    image: ShopManagerImage
     ports:
       - "8082:8082"
     environment:
@@ -20,7 +20,32 @@ services:
       - db2
 
   service3:
-    image: your-service3-image
+    image: PaymentManagerImage
+    ports:
+      - "8082:8082"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db2:5432/service2db
+    depends_on:
+      - db2
+  # MongoDB (données dynamiques comme produits) => Produits, logs, personnalisation graphique
+  service4:
+    image: ProductsServiceImage
+    ports:
+      - "8083:8083"
+    environment:
+      - DATABASE_URL=mongodb://user:password@db3:27017/service3db
+    depends_on:
+      - db3
+  service5:
+    image: LogsServiceImage
+    ports:
+      - "8083:8083"
+    environment:
+      - DATABASE_URL=mongodb://user:password@db3:27017/service3db
+    depends_on:
+      - db3
+  service6:
+    image: GraphicPersonnalisationServiceImage
     ports:
       - "8083:8083"
     environment:
