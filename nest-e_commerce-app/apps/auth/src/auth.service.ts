@@ -24,7 +24,10 @@ export class AuthService {
     };
   }
 
-  async signUp(username: string, password: string): Promise<{ access_token: string }> {
+  async signUp(
+    username: string,
+    password: string,
+  ): Promise<{ access_token: string }> {
     const user = this.usersService.findOne(username);
 
     if (user) {
