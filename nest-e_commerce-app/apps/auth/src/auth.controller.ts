@@ -15,17 +15,17 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
-  }
+  // @HttpCode(HttpStatus.OK)
+  // @Post('login')
+  // signIn(@Body() signInDto: Record<string, any>) {
+  //   return this.authService.signIn(signInDto.username, signInDto.password);
+  // }
 
-  @HttpCode(HttpStatus.CREATED)
-  @Post('register')
-  signUp(@Body() signUpDto: Record<string, any>) {
-    return this.authService.signUp(signUpDto.username, signUpDto.password);
-  }
+  // @HttpCode(HttpStatus.CREATED)
+  // @Post('register')
+  // signUp(@Body() signUpDto: Record<string, any>) {
+  //   return this.authService.signUp(signUpDto.username, signUpDto.password);
+  // }
 
   // @UseGuards(AuthGuard)
   // @Get('profile')

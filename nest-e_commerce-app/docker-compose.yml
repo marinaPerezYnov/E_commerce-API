@@ -1,58 +1,60 @@
 version: '3.8'
 services:
   # PostgreSQL (relationnelle) => User, Shop, Payment 
-  service1:
-    image: UserManagerImage
-    ports:
-      - "8081:8081"
+  user_manager_service:
+    image: postgres:latest
+    restart: always
     environment:
       - DATABASE_URL=postgresql://user:password@db1:5432/service1db
-    depends_on:
-      - db1
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=service1db
+    # volumes:
+      # - db1_data:/var/lib/postgresql/data
 
-  service2:
-    image: ShopManagerImage
-    ports:
-      - "8082:8082"
-    environment:
-      - DATABASE_URL=postgresql://user:password@db2:5433/service2db
-    depends_on:
-      - db2
-
-  service3:
-    image: PaymentManagerImage
-    ports:
-      - "8083:8083"
-    environment:
-      - DATABASE_URL=postgresql://user:password@db3:5434/service3db
-    depends_on:
-      - db3
+  # service2:
+    # image: shop_manager_image
+    # ports:
+      # - "8080:8082"
+    # environment:
+      # - DATABASE_URL=postgresql://user:password@db2:5432/service2db
+    # depends_on:
+      # - db2
+# 
+  # service3:
+    # image: payment_manager_image
+    # ports:
+      # - "8083:8083"
+    # environment:
+      # - DATABASE_URL=postgresql://user:password@db3:5432/service3db
+    # depends_on:
+      # - db3
   # MongoDB (données dynamiques comme produits) => Produits, logs, personnalisation graphique
-  service4:
-    image: ProductsServiceImage
-    ports:
-      - "8084:8084"
-    environment:
-      - DATABASE_URL=mongodb://user:password@db4:27017/service4db
-    depends_on:
-      - db4
-  service5:
-    image: LogsServiceImage
-    ports:
-      - "8085:8085"
-    environment:
-      - DATABASE_URL=mongodb://user:password@db5:27018/service5db
-    depends_on:
-      - db5
-  service6:
-    image: GraphicPersonnalisationServiceImage
-    ports:
-      - "8086:8086"
-    environment:
-      - DATABASE_URL=mongodb://user:password@db6:27019/service6db
-    depends_on:
-      - db6
-
+  # service4:
+    # image: products_service_image
+    # ports:
+      # - "8084:8084"
+    # environment:
+      # - DATABASE_URL=mongodb://user:password@db4:27017/service4db
+    # depends_on:
+      # - db4
+  # service5:
+    # image: logs_service_image
+    # ports:
+      # - "8080:8085"
+    # environment:
+      # - DATABASE_URL=mongodb://user:password@db5:27017/service5db
+    # depends_on:
+      # - db5
+  # service6:
+    # image: graphic_personnalisation_service_image
+    # ports:
+      # - "8086:8086"
+    # environment:
+      # - DATABASE_URL=mongodb://user:password@db6:27017/service6db
+    # depends_on:
+      # - db6
+# 
   db1:
     image: postgres:latest
     environment:
@@ -62,49 +64,51 @@ services:
     volumes:
       - db1_data:/var/lib/postgresql/data
 
-  db2:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: service2db
-    volumes:
-      - db2_data:/var/lib/postgresql/data
-  db3:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: service2db
-    volumes:
-      - db3_data:/var/lib/postgresql/data
-
-  db4:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: password
-    volumes:
-      - db4_data:/data/db
-  db5:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: password
-    volumes:
-      - db5_data:/data/db
-  db6:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: password
-    volumes:
-      - db6_data:/data/db
+  # db2:
+    # image: postgres:latest
+    # environment:
+      # POSTGRES_USER: user
+      # POSTGRES_PASSWORD: password
+      # POSTGRES_DB: service2db
+    # volumes:
+      # - db2_data:/var/lib/postgresql/data
+# 
+  # db3:
+    # image: postgres:latest
+    # environment:
+      # POSTGRES_USER: user
+      # POSTGRES_PASSWORD: password
+      # POSTGRES_DB: service3db
+    # volumes:
+      # - db3_data:/var/lib/postgresql/data
+  # db4:
+    # image: mongo:latest
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: user
+      # MONGO_INITDB_ROOT_PASSWORD: password
+    # volumes:
+      # - db4_data:/data/db
+# 
+  # db5:
+    # image: postgres:latest
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: user
+      # MONGO_INITDB_ROOT_PASSWORD: password
+    # volumes:
+      # - db5_data:/var/lib/postgresql/data
+# 
+  # db6:
+    # image: mongo:latest
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: user
+      # MONGO_INITDB_ROOT_PASSWORD: password
+    # volumes:
+      # - db6_data:/data/db
 
 volumes:
   db1_data:
-  db2_data:
-  db3_data:
-  db4_data:
-  db5_data:
-  db6_data:
+  # db2_data:
+  # db3_data:
+  # db4_data:
+  # db5_data:
+  # db6_data:

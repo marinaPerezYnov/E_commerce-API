@@ -9,40 +9,40 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(
-    username: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
-    const user = this.usersService.findOne(username);
+  // async signIn(
+  //   username: string,
+  //   password: string,
+  // ): Promise<{ access_token: string }> {
+  //   const user = this.usersService.findOne(username);
 
-    if (user?.password !== password) {
-      throw new UnauthorizedException();
-    }
-    const payload = { sub: user.userId, username: user.username };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
-  }
+  //   if (user?.password !== password) {
+  //     throw new UnauthorizedException();
+  //   }
+  //   const payload = { sub: user.userId, username: user.username };
+  //   return {
+  //     access_token: await this.jwtService.signAsync(payload),
+  //   };
+  // }
 
-  async signUp(
-    username: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
-    const user = this.usersService.findOne(username);
+  // async signUp(
+  //   username: string,
+  //   password: string,
+  // ): Promise<{ access_token: string }> {
+  //   const user = this.usersService.findOne(username);
 
-    if (user) {
-      throw new UnauthorizedException();
-    }
+  //   if (user) {
+  //     throw new UnauthorizedException();
+  //   }
 
-    const newUser = {
-      userId: Date.now(),
-      username,
-      password,
-    };
+  //   const newUser = {
+  //     userId: Date.now(),
+  //     username,
+  //     password,
+  //   };
 
-    const payload = { sub: newUser.userId, username: newUser.username };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
-  }
+  //   const payload = { sub: newUser.userId, username: newUser.username };
+  //   return {
+  //     access_token: await this.jwtService.signAsync(payload),
+  //   };
+  // }
 }

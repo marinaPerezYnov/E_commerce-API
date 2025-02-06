@@ -3,6 +3,9 @@ import { UsersModule } from './users.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(UsersModule);
-  await app.listen(process.env.port ?? 3000);
+  const config = app.get('ConfigService');
+  console.log(config.get('GRAPHICPERSONNALISATIONSERVICE'));
+  // await app.listen(process.env.GRAPHICPERSONNALISATIONSERVICE);
+  await app.listen(config.get('GRAPHICPERSONNALISATIONSERVICE') || 3000);
 }
 bootstrap();
