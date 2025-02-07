@@ -6,3 +6,9 @@ export class ProduitsService {
     return 'Hello World!';
   }
 }
+
+export enum Status {
+  Available = 'Disponible',
+  Reserved = 'Reservé',
+  Waiting = 'En attente',
+}
