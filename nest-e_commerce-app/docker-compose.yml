@@ -5,12 +5,14 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      - DATABASE_URL=postgresql://user:password@db1:5432/service1db
+      - DATABASE_URL=postgresql://user:password@127.0.0.1:5432/service1db
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=service1db
-    # volumes:
-      # - db1_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - db1_data:/var/lib/postgresql/data
 
   # service2:
     # image: shop_manager_image
@@ -55,14 +57,14 @@ services:
     # depends_on:
       # - db6
 # 
-  db1:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: service1db
-    volumes:
-      - db1_data:/var/lib/postgresql/data
+  # db1:
+  #   image: postgres:latest
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: service1db
+  #   volumes:
+  #     - db1_data:/var/lib/postgresql/data
 
   # db2:
     # image: postgres:latest
