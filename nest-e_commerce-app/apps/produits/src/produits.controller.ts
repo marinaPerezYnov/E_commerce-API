@@ -37,7 +37,10 @@ export class ProduitsController {
    */
   @HttpCode(HttpStatus.OK)
   @Put('produits/:id')
-  updateProduit(@Param('id') id: string, @Body() produitDto: Record<string, any>) {
+  updateProduit(
+    @Param('id') id: string,
+    @Body() produitDto: Record<string, any>,
+  ) {
     return this.produitsService.update(id, produitDto);
   }
 

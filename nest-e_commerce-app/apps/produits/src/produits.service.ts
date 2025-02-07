@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProduitsService {
-  create(): string {
+  create(product): string {
     return 'Produit créé';
   }
 
@@ -14,7 +14,7 @@ export class ProduitsService {
     return 'Produit trouvé';
   }
 
-  update(id): string {
+  update(id, product): string {
     return 'Produit mis à jour';
   }
 
