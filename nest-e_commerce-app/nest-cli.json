@@ -28,6 +28,15 @@
         "tsConfigPath": "apps/nest-e_commerce-app/tsconfig.app.json"
       }
     },
+    "produits": {
+      "type": "application",
+      "root": "apps/produits",
+      "entryFile": "main",
+      "sourceRoot": "apps/produits/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/produits/tsconfig.app.json"
+      }
+    },
     "users": {
       "type": "application",
       "root": "apps/users",
