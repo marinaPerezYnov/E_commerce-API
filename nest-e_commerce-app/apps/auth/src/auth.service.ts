@@ -24,25 +24,24 @@ export class AuthService {
   //   };
   // }
 
-  // async signUp(
-  //   username: string,
-  //   password: string,
-  // ): Promise<{ access_token: string }> {
-  //   const user = this.usersService.findOne(username);
-
-  //   if (user) {
-  //     throw new UnauthorizedException();
-  //   }
-
-  //   const newUser = {
-  //     userId: Date.now(),
-  //     username,
-  //     password,
-  //   };
-
-  //   const payload = { sub: newUser.userId, username: newUser.username };
-  //   return {
-  //     access_token: await this.jwtService.signAsync(payload),
-  //   };
-  // }
+  async signUp(
+    email: string,
+    password: string,
+  ): Promise<{
+    access_token: string;
+    newUser: any;
+  }> {
+    const user = await this.usersService.findOne(email);
+    if (user) {
+      console.error('user', user);
+      throw new UnauthorizedException();
+    }
+    const newUser = await this.usersService.create(email, password);
+    console.error('newUser', newUser);
+    const payload = { sub: newUser.id, username: newUser.email };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+      newUser: newUser,
+    };
+  }
 }
