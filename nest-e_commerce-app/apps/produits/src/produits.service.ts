@@ -2,8 +2,24 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProduitsService {
-  getHello(): string {
-    return 'Hello World!';
+  create(): string {
+    return 'Produit créé';
+  }
+
+  findAll(): string {
+    return 'Produits trouvés';
+  }
+
+  findOne(id): string {
+    return 'Produit trouvé';
+  }
+
+  update(id): string {
+    return 'Produit mis à jour';
+  }
+
+  remove(id): string {
+    return 'Produit supprimé';
   }
 }
 
