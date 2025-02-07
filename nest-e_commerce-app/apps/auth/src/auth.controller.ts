@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -26,11 +16,5 @@ export class AuthController {
   signUp(@Body() signUpDto: Record<string, any>) {
     return this.authService.signUp(signUpDto.email, signUpDto.password);
   }
-
-  // @UseGuards(AuthGuard)
-  // @Get('profile')
-  // getProfile(@Request() req) {
-  //   return req.user;
-  // }
 }
 //Endpoints à tester sur postman : https://docs.nestjs.com/security/authentication#implementing-the-sign-in-endpoint
