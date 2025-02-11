@@ -13,5 +13,4 @@ describe('PaymentController', () => {
 
     paymentController = app.get<PaymentController>(PaymentController);
   });
-
 });
