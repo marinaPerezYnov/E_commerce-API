@@ -1,6 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 // https://docs.nestjs.com/techniques/database
 import { Status } from './produits.service';
+
+// Correspond à la gestion des produits
+
 @Entity()
 export class Produit {
   @PrimaryGeneratedColumn()

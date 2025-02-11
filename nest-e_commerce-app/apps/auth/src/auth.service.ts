@@ -2,6 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from './../../users/src/users.service';
 import { JwtService } from '@nestjs/jwt';
 
+// Correspond à l'enregistrement d'une nouvel utilisateur et à sa connexion
+
 @Injectable()
 export class AuthService {
   constructor(

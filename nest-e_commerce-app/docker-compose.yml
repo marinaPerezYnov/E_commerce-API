@@ -14,34 +14,42 @@ services:
     volumes:
       - db1_data:/var/lib/postgresql/data
 
-  # service2:
-    # image: shop_manager_image
-    # ports:
-      # - "8080:8082"
-    # environment:
-      # - DATABASE_URL=postgresql://user:password@db2:5432/service2db
-    # depends_on:
-      # - db2
-# 
-  # service3:
-    # image: payment_manager_image
-    # ports:
-      # - "8083:8083"
-    # environment:
-      # - DATABASE_URL=postgresql://user:password@db3:5432/service3db
-    # depends_on:
-      # - db3
-  # MongoDB (données dynamiques comme produits) => Produits, logs, personnalisation graphique
-  service4:
-    image: mongodb:latest
-    environment:
-      - DATABASE_URL=mongodb://user:password@db4:27017/service4db
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
+  service2:
+    image: postgres:latest
+    restart: always
     ports:
-      - "8084:8084"
+      - "5433:5433"
+    environment:
+      - DATABASE_URL=postgresql://user:password@127.0.0.1:5433/service2db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=service2db
     volumes:
-      - db4_data:/var/lib/mongodb/data
+      - db2_data:/var/lib/postgresql/data
+# 
+  service3:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5434:5434"
+    environment:
+      - DATABASE_URL=postgresql://user:password@127.0.0.1:5434/service3db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=service3db
+    volumes:
+      - db3_data:/var/lib/postgresql/data
+  # MongoDB (données dynamiques comme produits) => Produits, logs, personnalisation graphique
+  # service4:
+  #   image: mongo:latest
+  #   environment:
+  #     - DATABASE_URL=mongodb://user:password@db4:27017/service4db
+  #     - MONGO_INITDB_ROOT_USERNAME=user
+  #     - MONGO_INITDB_ROOT_PASSWORD=password
+  #   ports:
+  #     - "8084:8084"
+  #   volumes:
+  #     - db4_data:/var/lib/mongodb/data
 
 
   # service5:
@@ -113,8 +121,8 @@ services:
 
 volumes:
   db1_data:
-  # db2_data:
-  # db3_data:
-  db4_data:
+  db2_data:
+  db3_data:
+  # db4_data:
   # db5_data:
   # db6_data:
