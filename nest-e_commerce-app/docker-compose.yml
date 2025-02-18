@@ -18,7 +18,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-      - "5433:5433"
+      - "5433:5432"
     environment:
       - DATABASE_URL=postgresql://user:password@127.0.0.1:5433/service2db
       - POSTGRES_USER=user
@@ -26,19 +26,19 @@ services:
       - POSTGRES_DB=service2db
     volumes:
       - db2_data:/var/lib/postgresql/data
-# 
-  service3:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "5434:5434"
-    environment:
-      - DATABASE_URL=postgresql://user:password@127.0.0.1:5434/service3db
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=service3db
-    volumes:
-      - db3_data:/var/lib/postgresql/data
+
+  # service3:
+  #   image: postgres:latest
+  #   restart: always
+  #   ports:
+  #     - "5434:5432"
+  #   environment:
+  #     - DATABASE_URL=postgresql://user:password@127.0.0.1:5434/service3db
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=service3db
+  #   volumes:
+  #     - db3_data:/var/lib/postgresql/data
   # MongoDB (données dynamiques comme produits) => Produits, logs, personnalisation graphique
   # service4:
   #   image: mongo:latest
@@ -122,7 +122,7 @@ services:
 volumes:
   db1_data:
   db2_data:
-  db3_data:
+  # db3_data:
   # db4_data:
   # db5_data:
   # db6_data:
