@@ -9,8 +9,8 @@ export class Produit {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column()
+  ownerId: number;
 
   @Column()
   nom: string;

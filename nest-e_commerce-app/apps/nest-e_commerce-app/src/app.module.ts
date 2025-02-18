@@ -10,8 +10,8 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'apps/users/src/users.entity';
 import { Shop } from 'apps/shop/src/shop.entity';
 import { ShopModule } from 'apps/shop/src/shop.module';
-// import { ShopController } from 'apps/shop/src/shop.controller';
-// import { ShopController } from 'apps/shop/src/shop.controller';
+import { Produit } from 'apps/produits/src/produit.entity';
+import { ProduitsModule } from 'apps/produits/src/produits.module';
 
 @Module({
   imports: [
@@ -50,6 +50,22 @@ import { ShopModule } from 'apps/shop/src/shop.module';
       }),
       inject: [ConfigService],
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (ConfigService: ConfigService) => ({
+        type: 'mongodb',
+        host: ConfigService.get<string>('DB_HOST'),
+        port: ConfigService.get<number>('DB_PORT_PRODUCTS_SERVICE'),
+        username: ConfigService.get<string>('DB_USERNAME_PRODUCT_SERVICE'),
+        password: ConfigService.get<string>('DB_PASSWORD_PRODUCT_SERVICE'),
+        database: ConfigService.get<string>('DB_NAME_PRODUCT_SERVICE'),
+        entities: [Produit],
+        // synchronize: true,
+        autoLoadEntities: true,
+      }),
+      inject: [ConfigService],
+    }),
+    ProduitsModule,
     ShopModule,
   ],
   controllers: [AppController],

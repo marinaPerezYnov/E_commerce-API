@@ -1,6 +1,7 @@
 import { Controller, HttpStatus } from '@nestjs/common';
 import { ProduitsService } from './produits.service';
 import { Body, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Produit } from './produit.entity';
 
 @Controller()
 export class ProduitsController {
@@ -11,7 +12,7 @@ export class ProduitsController {
    */
   @HttpCode(HttpStatus.CREATED)
   @Post('produits')
-  createProduit(@Body() produitDto: Record<string, any>) {
+  createProduit(@Body() produitDto: Partial<Produit>): Promise<Produit> {
     return this.produitsService.create(produitDto);
   }
 
@@ -20,7 +21,7 @@ export class ProduitsController {
    */
   @HttpCode(HttpStatus.OK)
   @Get('produits')
-  getProduits() {
+  getProduits(): Promise<Produit[]> {
     return this.produitsService.findAll();
   }
 
@@ -29,7 +30,7 @@ export class ProduitsController {
    **/
   @HttpCode(HttpStatus.OK)
   @Get('produits/:id')
-  getProduit(@Param('id') id: string) {
+  getProduit(@Param('id') id: number): Promise<Produit> {
     return this.produitsService.findOne(id);
   }
   /**
@@ -37,10 +38,7 @@ export class ProduitsController {
    */
   @HttpCode(HttpStatus.OK)
   @Put('produits/:id')
-  updateProduit(
-    @Param('id') id: string,
-    @Body() produitDto: Record<string, any>,
-  ) {
+  updateProduit(@Param('id') id: number, @Body() produitDto: Partial<Produit>) {
     return this.produitsService.update(id, produitDto);
   }
 
@@ -49,7 +47,7 @@ export class ProduitsController {
    */
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete('produits/:id')
-  deleteProduit(@Param('id') id: string) {
+  deleteProduit(@Param('id') id: number): Promise<void> {
     return this.produitsService.remove(id);
   }
 }
