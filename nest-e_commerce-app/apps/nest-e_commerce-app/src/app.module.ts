@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'apps/users/src/users.entity';
 import { Shop } from 'apps/shop/src/shop.entity';
 import { ShopModule } from 'apps/shop/src/shop.module';
-import { ShopController } from 'apps/shop/src/shop.controller';
+// import { ShopController } from 'apps/shop/src/shop.controller';
 // import { ShopController } from 'apps/shop/src/shop.controller';
 
 @Module({
@@ -31,6 +31,7 @@ import { ShopController } from 'apps/shop/src/shop.controller';
         database: configService.get<string>('DB_NAME_USER_MANAGER'),
         entities: [User],
         synchronize: true,
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
@@ -51,7 +52,7 @@ import { ShopController } from 'apps/shop/src/shop.controller';
     }),
     ShopModule,
   ],
-  controllers: [AppController, ShopController],
+  controllers: [AppController],
   providers: [AppService],
 })
 // Le paramètre synchronize: true ne doit pas être utilisé en production, sinon vous risquez de perdre des données de production.

@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 // Correspond à la configuration de la boutique et à sa création
 
-@Entity('shop')
+@Entity()
 export class Shop {
   @PrimaryGeneratedColumn()
   id: number;
