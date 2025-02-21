@@ -43,9 +43,6 @@ services:
   service4:
     image: mongo:latest
     restart: always
-    # environment:
-    #   - DB_USERNAME_PRODUIT_SERVICE=user
-    #   - DB_PASSWORD_PRODUIT_SERVICE=password
     ports:
       - "27017:27017"
       # - "27018:27017"
@@ -61,14 +58,14 @@ services:
       # - DATABASE_URL=mongodb://user:password@db5:27017/service5db
     # depends_on:
       # - db5
-  # service6:
-    # image: graphic_personnalisation_service_image
-    # ports:
-      # - "8086:8086"
-    # environment:
-      # - DATABASE_URL=mongodb://user:password@db6:27017/service6db
-    # depends_on:
-      # - db6
+  # 27018:27017
+  service6:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - db6_data:/data/db
 # 
   # db1:
   #   image: postgres:latest
@@ -126,4 +123,4 @@ volumes:
   # db3_data:
   db4_data:
   # db5_data:
-  # db6_data:
+  db6_data:
