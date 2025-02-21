@@ -37,6 +37,15 @@
         "tsConfigPath": "apps/payment/tsconfig.app.json"
       }
     },
+    "personnalisation-graphique": {
+      "type": "application",
+      "root": "apps/personnalisation-graphique",
+      "entryFile": "main",
+      "sourceRoot": "apps/personnalisation-graphique/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/personnalisation-graphique/tsconfig.app.json"
+      }
+    },
     "produits": {
       "type": "application",
       "root": "apps/produits",
