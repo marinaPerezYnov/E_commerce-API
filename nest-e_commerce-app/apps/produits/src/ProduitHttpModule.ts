@@ -9,5 +9,6 @@ import { ProduitsController } from './produits.controller';
   imports: [ProduitsModule],
   providers: [ProduitsService],
   controllers: [ProduitsController],
+  exports: [ProduitsService],
 })
 export class ProduitHttpModule {}

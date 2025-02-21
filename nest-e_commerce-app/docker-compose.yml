@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   # PostgreSQL (relationnelle) => User, Shop(Panier), Payment 
-  user_manager_service:
+  service1:
     image: postgres:latest
     restart: always
     environment:
@@ -43,11 +43,12 @@ services:
   service4:
     image: mongo:latest
     restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
+    # environment:
+    #   - DB_USERNAME_PRODUIT_SERVICE=user
+    #   - DB_PASSWORD_PRODUIT_SERVICE=password
     ports:
-      - "27018:27017"
+      - "27017:27017"
+      # - "27018:27017"
     volumes:
       - db4_data:/data/db
 
