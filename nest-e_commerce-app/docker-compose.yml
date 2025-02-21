@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   # PostgreSQL (relationnelle) => User, Shop(Panier), Payment 
-  user_manager_service:
+  service1:
     image: postgres:latest
     restart: always
     environment:
@@ -40,16 +40,17 @@ services:
   #   volumes:
   #     - db3_data:/var/lib/postgresql/data
   # MongoDB (données dynamiques comme produits) => Produits, logs, personnalisation graphique
-  # service4:
-  #   image: mongo:latest
-  #   environment:
-  #     - DATABASE_URL=mongodb://user:password@db4:27017/service4db
-  #     - MONGO_INITDB_ROOT_USERNAME=user
-  #     - MONGO_INITDB_ROOT_PASSWORD=password
-  #   ports:
-  #     - "8084:8084"
-  #   volumes:
-  #     - db4_data:/var/lib/mongodb/data
+  service4:
+    image: mongo:latest
+    restart: always
+    # environment:
+    #   - DB_USERNAME_PRODUIT_SERVICE=user
+    #   - DB_PASSWORD_PRODUIT_SERVICE=password
+    ports:
+      - "27017:27017"
+      # - "27018:27017"
+    volumes:
+      - db4_data:/data/db
 
 
   # service5:
@@ -123,6 +124,6 @@ volumes:
   db1_data:
   db2_data:
   # db3_data:
-  # db4_data:
+  db4_data:
   # db5_data:
   # db6_data:

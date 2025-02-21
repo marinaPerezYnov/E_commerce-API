@@ -1,8 +1,19 @@
-import { Controller, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  HttpStatus,
+  HttpCode,
+  Param,
+  Body,
+  Delete,
+  Get,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ProduitsService } from './produits.service';
-import { Body, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Produit } from '../interfaces/produit.interface';
+import { CreateProduitDto } from '../dto/create-produit.dto';
 
-@Controller()
+@Controller('produits')
 export class ProduitsController {
   constructor(private readonly produitsService: ProduitsService) {}
 
@@ -10,8 +21,8 @@ export class ProduitsController {
    * Créer un nouveau produit
    */
   @HttpCode(HttpStatus.CREATED)
-  @Post('produits')
-  createProduit(@Body() produitDto: Record<string, any>) {
+  @Post()
+  createProduit(@Body() produitDto: CreateProduitDto): Promise<Produit> {
     return this.produitsService.create(produitDto);
   }
 
@@ -19,8 +30,8 @@ export class ProduitsController {
    * Récupérer tous les produits
    */
   @HttpCode(HttpStatus.OK)
-  @Get('produits')
-  getProduits() {
+  @Get()
+  getProduits(): Promise<Produit[]> {
     return this.produitsService.findAll();
   }
 
@@ -28,19 +39,20 @@ export class ProduitsController {
    * Récupérer un produit par son id
    **/
   @HttpCode(HttpStatus.OK)
-  @Get('produits/:id')
-  getProduit(@Param('id') id: string) {
+  @Get(':id')
+  getProduit(@Param('id') id: string): Promise<Produit> {
     return this.produitsService.findOne(id);
   }
+
   /**
    * Mettre à jour le produit
    */
   @HttpCode(HttpStatus.OK)
-  @Put('produits/:id')
+  @Put(':id')
   updateProduit(
     @Param('id') id: string,
-    @Body() produitDto: Record<string, any>,
-  ) {
+    @Body() produitDto: CreateProduitDto,
+  ): Promise<Produit> {
     return this.produitsService.update(id, produitDto);
   }
 
@@ -48,8 +60,8 @@ export class ProduitsController {
    * Supprimer un produit
    */
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete('produits/:id')
-  deleteProduit(@Param('id') id: string) {
+  @Delete(':id')
+  deleteProduit(@Param('id') id: string): Promise<void> {
     return this.produitsService.remove(id);
   }
 }

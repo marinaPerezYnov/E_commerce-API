@@ -10,8 +10,8 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'apps/users/src/users.entity';
 import { Shop } from 'apps/shop/src/shop.entity';
 import { ShopModule } from 'apps/shop/src/shop.module';
-// import { ShopController } from 'apps/shop/src/shop.controller';
-// import { ShopController } from 'apps/shop/src/shop.controller';
+import { ProduitsModule } from 'apps/produits/src/produits.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -50,6 +50,14 @@ import { ShopModule } from 'apps/shop/src/shop.module';
       }),
       inject: [ConfigService],
     }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: `mongodb://localhost:27017`,
+      }),
+      inject: [ConfigService],
+    }),
+    ProduitsModule,
     ShopModule,
   ],
   controllers: [AppController],
