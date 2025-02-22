@@ -1,30 +1,55 @@
 import { IsString, IsNumber } from 'class-validator';
+import { stringErrorText, numberErrorText } from 'apps/utils/text';
 
 export class CreatePersonnalisationGraphiqueDto {
-  @IsNumber()
+  @IsNumber(
+    {},
+    {
+      message: numberErrorText,
+    },
+  )
   readonly id: number;
 
-  @IsNumber()
+  @IsNumber(
+    {},
+    {
+      message: numberErrorText,
+    },
+  )
   ownerId!: number;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   primaryColor!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   secondaryColor!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   thirdcolor!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   firstPolice!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   secondaryPolice!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   globalBackgroundImage!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   otherBackgroundImage!: string;
 }

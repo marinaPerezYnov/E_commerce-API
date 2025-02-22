@@ -1,29 +1,57 @@
 import { IsString, IsNumber } from 'class-validator';
+import { stringErrorText, numberErrorText } from 'apps/utils/text';
 // import { Type } from 'class-transformer';
 
 export class CreateProduitDto {
-  //   @Type(() => Number)
-  @IsNumber()
+  @IsNumber(
+    {},
+    {
+      message: numberErrorText,
+    },
+  )
   readonly id: number;
 
-  @IsNumber()
+  @IsNumber(
+    {},
+    {
+      message: numberErrorText,
+    },
+  )
   ownerId!: number;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   nom!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   description!: string;
 
-  @IsNumber()
+  @IsNumber(
+    {},
+    {
+      message: numberErrorText,
+    },
+  )
   prix!: number;
 
-  @IsNumber()
+  @IsNumber(
+    {},
+    {
+      message: numberErrorText,
+    },
+  )
   quantite!: number;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   status!: string;
 
-  @IsString()
+  @IsString({
+    message: stringErrorText,
+  })
   picture!: string;
 }
