@@ -3,9 +3,10 @@ import { UsersService } from './../../users/src/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { emailValidator, passwordValidator } from '../../utils/validators';
 import { passwordErrorText, emailErrorText } from 'apps/utils/text';
+import { Public } from 'apps/decorator.decorator';
 
 // Correspond à l'enregistrement d'une nouvel utilisateur et à sa connexion
-
+@Public()
 @Injectable()
 export class AuthService {
   constructor(
@@ -96,5 +97,14 @@ export class AuthService {
       newUser: newUser,
       error: ``,
     };
+  }
+
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.usersService.findOne(username);
+    if (user && user.password === pass) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 }

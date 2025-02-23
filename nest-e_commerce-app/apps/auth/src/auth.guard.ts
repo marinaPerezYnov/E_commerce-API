@@ -9,12 +9,14 @@ import { jwtConstants } from './../constantes';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from './../../decorator.decorator';
 import { Reflector } from '@nestjs/core';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private jwtService: JwtService,
+    private authService: AuthService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

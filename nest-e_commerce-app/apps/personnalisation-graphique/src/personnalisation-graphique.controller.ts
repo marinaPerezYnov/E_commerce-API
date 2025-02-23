@@ -8,11 +8,16 @@ import {
   Get,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { PersonnalisationGraphiqueService } from './personnalisation-graphique.service';
 import { PersonnalisationGraphic } from '../interfaces/personnalisation-graphique.interface';
 import { CreatePersonnalisationGraphiqueDto } from '../dto/create-personnalisation-graphique.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'apps/auth/src/jwt-auth.guard';
 
+@ApiBearerAuth()
+@ApiTags('personnalisationGraphic')
 @Controller('personnalisationGraphic')
 export class PersonnalisationGraphiqueController {
   constructor(
@@ -24,6 +29,7 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.CREATED)
   @Post()
+  @UseGuards(JwtAuthGuard)
   createProduit(
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
   ): Promise<PersonnalisationGraphic> {
@@ -37,6 +43,7 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.OK)
   @Get()
+  @UseGuards(JwtAuthGuard)
   getProduits(): Promise<PersonnalisationGraphic[]> {
     return this.personnalisationGraphiqueService.findAll();
   }
@@ -46,6 +53,7 @@ export class PersonnalisationGraphiqueController {
    **/
   @HttpCode(HttpStatus.OK)
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   getProduit(@Param('id') id: string): Promise<PersonnalisationGraphic> {
     return this.personnalisationGraphiqueService.findOne(id);
   }
@@ -55,6 +63,7 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.OK)
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   updateProduit(
     @Param('id') id: string,
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
@@ -70,6 +79,7 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   deleteProduit(@Param('id') id: string): Promise<void> {
     return this.personnalisationGraphiqueService.remove(id);
   }
