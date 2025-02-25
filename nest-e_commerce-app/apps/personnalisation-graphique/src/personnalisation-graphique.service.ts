@@ -34,6 +34,18 @@ export class PersonnalisationGraphiqueService {
     return personnalisationGraphic;
   }
 
+  async findByOwnerId(ownerId: string): Promise<PersonnalisationGraphic> {
+    const personnalisationGraphic = await this.personnalisationGraphicModel
+      .findOne({ ownerId: ownerId })
+      .exec();
+    if (!personnalisationGraphic) {
+      throw new NotFoundException(
+        `Personnalisation Graphique with ownerId ${ownerId} not found`,
+      );
+    }
+    return personnalisationGraphic;
+  }
+  
   async update(
     id: string,
     updatePersonnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,

@@ -30,7 +30,7 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   @UseGuards(JwtAuthGuard)
-  createProduit(
+  createPersonnalisationGraphic(
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
   ): Promise<PersonnalisationGraphic> {
     return this.personnalisationGraphiqueService.create(
@@ -44,10 +44,20 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Get()
   @UseGuards(JwtAuthGuard)
-  getProduits(): Promise<PersonnalisationGraphic[]> {
+  getPersonnalisationGraphic(): Promise<PersonnalisationGraphic[]> {
     return this.personnalisationGraphiqueService.findAll();
   }
 
+  /**
+   * Récupérer une personnalisation graphique en se basant sur l'ownerId
+   */
+  @HttpCode(HttpStatus.OK)
+  @Get('owner/:ownerId')
+  @UseGuards(JwtAuthGuard)
+  getPersonnalisationByOwnerId(@Param('ownerId') ownerId: string): Promise<PersonnalisationGraphic> {
+    return this.personnalisationGraphiqueService.findByOwnerId(ownerId);
+  }
+  
   /**
    * Récupérer un personnalisation graphique par son id
    **/
@@ -64,7 +74,7 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  updateProduit(
+  updateePersonnalisationGraphic(
     @Param('id') id: string,
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
   ): Promise<PersonnalisationGraphic> {
@@ -80,7 +90,7 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  deleteProduit(@Param('id') id: string): Promise<void> {
+  deleteePersonnalisationGraphic(@Param('id') id: string): Promise<void> {
     return this.personnalisationGraphiqueService.remove(id);
   }
 }
