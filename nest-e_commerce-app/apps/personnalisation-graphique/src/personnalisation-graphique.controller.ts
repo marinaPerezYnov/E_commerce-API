@@ -54,10 +54,12 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Get('owner/:ownerId')
   @UseGuards(JwtAuthGuard)
-  getPersonnalisationByOwnerId(@Param('ownerId') ownerId: string): Promise<PersonnalisationGraphic> {
+  getPersonnalisationByOwnerId(
+    @Param('ownerId') ownerId: string,
+  ): Promise<PersonnalisationGraphic> {
     return this.personnalisationGraphiqueService.findByOwnerId(ownerId);
   }
-  
+
   /**
    * Récupérer un personnalisation graphique par son id
    **/

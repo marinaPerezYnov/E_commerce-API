@@ -45,7 +45,7 @@ export class PersonnalisationGraphiqueService {
     }
     return personnalisationGraphic;
   }
-  
+
   async update(
     id: string,
     updatePersonnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
