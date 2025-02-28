@@ -18,12 +18,19 @@ import {
 } from 'apps/utils/text';
 import { ChangePasswordDto } from '../dto/change-password.dto';
 import { UpdateEmailDto } from '../dto/update-email.dto';
+import { PersonnalisationGraphic } from 'apps/personnalisation-graphique/interfaces/personnalisation-graphique.interface';
+import { Shop } from './../../shop/src/shop.entity';
+import { Produit } from './../../produits/interfaces/produit.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    //Intégrer les repository des autres entités
+    private shopRepository: Repository<Shop>,
+    private productRepository: Repository<Produit>,
+    private personnalisationGraphicRepository: Repository<PersonnalisationGraphic>,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -64,6 +71,17 @@ export class UsersService {
       throw new BadRequestException(numberErrorText);
     }
 
+    // Find the user by ID
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    await this.shopRepository.delete({ ownerId: id });
+    await this.productRepository.delete({ ownerId: id });
+    await this.personnalisationGraphicRepository.delete({ ownerId: id });
+
+    // Finally, delete the user
     const result = await this.usersRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`User with ID ${id} not found`);
