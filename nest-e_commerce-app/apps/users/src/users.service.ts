@@ -16,6 +16,8 @@ import {
   emailErrorText,
   numberErrorText,
 } from 'apps/utils/text';
+import { ChangePasswordDto } from '../dto/change-password.dto';
+import { UpdateEmailDto } from '../dto/update-email.dto';
 
 @Injectable()
 export class UsersService {
@@ -66,5 +68,29 @@ export class UsersService {
     if (result.affected === 0) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
+  }
+
+  async changePassword(
+    id: number,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<void> {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    if (user.password !== changePasswordDto.oldPassword) {
+      throw new BadRequestException('Old password is incorrect');
+    }
+    user.password = changePasswordDto.newPassword;
+    await this.usersRepository.save(user);
+  }
+
+  async updateEmail(id: number, updateEmailDto: UpdateEmailDto): Promise<void> {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    user.email = updateEmailDto.newEmail;
+    await this.usersRepository.save(user);
   }
 }
