@@ -13,6 +13,9 @@ import { forwardRef } from '@nestjs/common';
     PersonnalisationGraphiqueService,
     ...personnalisationGraphiqueProviders,
   ],
-  exports: [PersonnalisationGraphiqueService, ...personnalisationGraphiqueProviders],
+  exports: [
+    PersonnalisationGraphiqueService,
+    ...personnalisationGraphiqueProviders,
+  ],
 })
 export class PersonnalisationGraphiqueModule {}

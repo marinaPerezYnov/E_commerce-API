@@ -62,43 +62,37 @@ export class AuthService {
     newUser: any;
     error: string;
   }> {
-    const user = await this.usersService.findOne(email);
-    if (user) {
-      console.error('user', user);
-      throw new UnauthorizedException();
-    }
+      if (!emailValidator(email, emailErrorText)) {
+        return {
+          access_token: '',
+          newUser: null,
+          error: emailErrorText,
+        };
+      }
 
-    if (!emailValidator(email, emailErrorText)) {
+      if (!passwordValidator(password, passwordErrorText)) {
+        return {
+          access_token: '',
+          newUser: null,
+          error: passwordErrorText,
+        };
+      }
+
+      const newUser = await this.usersService.create(email, password);
+      if (typeof newUser === 'string') {
+        return {
+          access_token: '',
+          newUser: null,
+          error: newUser,
+        };
+      }
+
+      const payload = { sub: newUser.id, username: newUser.email };
       return {
-        access_token: '',
-        newUser: null,
-        error: emailErrorText,
+        access_token: await this.jwtService.signAsync(payload),
+        newUser: newUser,
+        error: '',
       };
-    }
-
-    if (!passwordValidator(password, passwordErrorText)) {
-      return {
-        access_token: '',
-        newUser: null,
-        error: passwordErrorText,
-      };
-    }
-
-    const newUser = await this.usersService.create(email, password);
-    if (typeof newUser === 'string') {
-      return {
-        access_token: '',
-        newUser: null,
-        error: newUser,
-      };
-    }
-
-    const payload = { sub: newUser.id, username: newUser.email };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-      newUser: newUser,
-      error: ``,
-    };
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
