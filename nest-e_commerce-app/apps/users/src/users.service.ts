@@ -2,7 +2,9 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  Inject,
 } from '@nestjs/common';
+import { Model } from 'mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
@@ -28,9 +30,12 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     //Intégrer les repository des autres entités
+    @InjectRepository(Shop)
     private shopRepository: Repository<Shop>,
-    private productRepository: Repository<Produit>,
-    private personnalisationGraphicRepository: Repository<PersonnalisationGraphic>,
+    @Inject('PRODUIT_MODEL')
+    private produitModel: Model<Produit>,
+    @Inject('PERSONNALISATIONGRAPHIQUE_MODEL')
+    private personnalisationGraphicModel: Model<PersonnalisationGraphic>,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -78,8 +83,8 @@ export class UsersService {
     }
 
     await this.shopRepository.delete({ ownerId: id });
-    await this.productRepository.delete({ ownerId: id });
-    await this.personnalisationGraphicRepository.delete({ ownerId: id });
+    await this.produitModel.deleteMany({ ownerId: id });
+    await this.personnalisationGraphicModel.deleteMany({ ownerId: id });
 
     // Finally, delete the user
     const result = await this.usersRepository.delete(id);
