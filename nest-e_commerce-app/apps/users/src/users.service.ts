@@ -55,6 +55,19 @@ export class UsersService {
     return user;
   }
 
+  async findOneById(id: number): Promise<User | null> {
+    const validId = numberValidator(id, numberErrorText);
+    if (!validId) {
+      throw new BadRequestException(numberErrorText);
+    }
+
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return user;
+  }
+  
   async create(email: string, password: string): Promise<User | string> {
     const validEmail = emailValidator(email, emailErrorText);
     const validPassword = passwordValidator(password, passwordErrorText);

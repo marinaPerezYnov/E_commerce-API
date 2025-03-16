@@ -9,12 +9,16 @@ import {
   Post,
   Put,
   UseGuards,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { PersonnalisationGraphiqueService } from './personnalisation-graphique.service';
+import { UsersService } from './../../users/src/users.service';
 import { PersonnalisationGraphic } from '../interfaces/personnalisation-graphique.interface';
 import { CreatePersonnalisationGraphiqueDto } from '../dto/create-personnalisation-graphique.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/auth/src/jwt-auth.guard';
+import { RolesGuard } from './../../roles.guard';
+import { Roles } from './../../roles.decorator';
 
 @ApiBearerAuth()
 @ApiTags('personnalisationGraphic')
@@ -22,6 +26,7 @@ import { JwtAuthGuard } from 'apps/auth/src/jwt-auth.guard';
 export class PersonnalisationGraphiqueController {
   constructor(
     private readonly personnalisationGraphiqueService: PersonnalisationGraphiqueService,
+    private readonly usersService: UsersService,
   ) {}
 
   /**
@@ -29,13 +34,27 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  @UseGuards(JwtAuthGuard)
-  createPersonnalisationGraphic(
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async createPersonnalisationGraphic(
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
   ): Promise<PersonnalisationGraphic> {
-    return this.personnalisationGraphiqueService.create(
-      personnalisationGraphiqueDto,
-    );
+    const ownerId = personnalisationGraphiqueDto.ownerId;
+    try {
+      const user = await this.usersService.findOneById(ownerId);
+      if (user?.role !== 'admin') {
+        throw new UnauthorizedException(
+          "Vous n'êtes pas autorisé à effectuer cette action",
+        );
+      }
+      return this.personnalisationGraphiqueService.create(
+        personnalisationGraphiqueDto,
+      );
+    } catch (error) {
+      throw new UnauthorizedException(
+        "Vous n'êtes pas autorisé à effectuer cette action",
+      );
+    }
   }
 
   /**
@@ -43,7 +62,8 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.OK)
   @Get()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   getPersonnalisationGraphic(): Promise<PersonnalisationGraphic[]> {
     return this.personnalisationGraphiqueService.findAll();
   }
@@ -53,11 +73,24 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.OK)
   @Get('owner/:ownerId')
-  @UseGuards(JwtAuthGuard)
-  getPersonnalisationByOwnerId(
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async getPersonnalisationByOwnerId(
     @Param('ownerId') ownerId: string,
   ): Promise<PersonnalisationGraphic> {
-    return this.personnalisationGraphiqueService.findByOwnerId(ownerId);
+    try {
+      const user = await this.usersService.findOneById(ownerId);
+      if (user?.role !== 'admin') {
+        throw new UnauthorizedException(
+          "Vous n'êtes pas autorisé à effectuer cette action",
+        );
+      }
+      return this.personnalisationGraphiqueService.findByOwnerId(ownerId);
+    } catch (error) {
+      throw new UnauthorizedException(
+        "Vous n'êtes pas autorisé à effectuer cette action",
+      );
+    }
   }
 
   /**
@@ -65,7 +98,8 @@ export class PersonnalisationGraphiqueController {
    **/
   @HttpCode(HttpStatus.OK)
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   getProduit(@Param('id') id: string): Promise<PersonnalisationGraphic> {
     return this.personnalisationGraphiqueService.findOne(id);
   }
@@ -75,15 +109,29 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.OK)
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
-  updateePersonnalisationGraphic(
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async updateePersonnalisationGraphic(
     @Param('id') id: string,
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
   ): Promise<PersonnalisationGraphic> {
-    return this.personnalisationGraphiqueService.update(
-      id,
-      personnalisationGraphiqueDto,
-    );
+    const ownerId = personnalisationGraphiqueDto.ownerId;
+    try {
+      const user = await this.usersService.findOneById(ownerId);
+      if (user?.role !== 'admin') {
+        throw new UnauthorizedException(
+          "Vous n'êtes pas autorisé à effectuer cette action",
+        );
+      }
+      return this.personnalisationGraphiqueService.update(
+        id,
+        personnalisationGraphiqueDto,
+      );
+    } catch (error) {
+      throw new UnauthorizedException(
+        "Vous n'êtes pas autorisé à effectuer cette action",
+      );
+    }
   }
 
   /**
@@ -91,7 +139,8 @@ export class PersonnalisationGraphiqueController {
    */
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   deleteePersonnalisationGraphic(@Param('id') id: string): Promise<void> {
     return this.personnalisationGraphiqueService.remove(id);
   }

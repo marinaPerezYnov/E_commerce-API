@@ -4,10 +4,11 @@ import { PersonnalisationGraphiqueService } from './personnalisation-graphique.s
 import { DatabaseModule } from 'database.module';
 import { personnalisationGraphiqueProviders } from './personnalisation-graphique.providers';
 import { AuthModule } from 'apps/auth/src/auth.module';
+import { UsersModule } from 'apps/users/src/users.module';
 import { forwardRef } from '@nestjs/common';
 
 @Module({
-  imports: [DatabaseModule, forwardRef(() => AuthModule)],
+  imports: [DatabaseModule, forwardRef(() => AuthModule), forwardRef(() => UsersModule)],
   controllers: [PersonnalisationGraphiqueController],
   providers: [
     PersonnalisationGraphiqueService,

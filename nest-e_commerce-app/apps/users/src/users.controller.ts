@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { Delete, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import { Delete, HttpCode, HttpStatus, Param, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/auth/src/jwt-auth.guard';
 import { Body, Put } from '@nestjs/common';
@@ -9,9 +9,19 @@ import { UpdateEmailDto } from './../dto/update-email.dto';
 
 @ApiBearerAuth()
 @ApiTags('users')
-@Controller()
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  /**
+   * Récupérer les données d'un utilisateur
+   */
+  @HttpCode(HttpStatus.OK)
+  @Get('user/:id')
+  @UseGuards(JwtAuthGuard)
+  getProduit(@Param('id') id: number) {
+    return this.usersService.findOneById(id);
+  }
 
   /**
    * Supprimer un produit
