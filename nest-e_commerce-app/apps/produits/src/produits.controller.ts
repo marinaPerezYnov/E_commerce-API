@@ -35,7 +35,6 @@ export class ProduitsController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   async createProduit(@Body() produitDto: CreateProduitDto): Promise<Produit> {
     const ownerId = produitDto.ownerId;
     try {
@@ -79,7 +78,6 @@ export class ProduitsController {
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   async updateProduit(
     @Param('id') id: string,
     @Body() produitDto: CreateProduitDto,

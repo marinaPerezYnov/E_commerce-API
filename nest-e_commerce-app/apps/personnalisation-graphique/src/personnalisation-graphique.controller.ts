@@ -35,7 +35,6 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   async createPersonnalisationGraphic(
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
   ): Promise<PersonnalisationGraphic> {
@@ -63,7 +62,6 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   getPersonnalisationGraphic(): Promise<PersonnalisationGraphic[]> {
     return this.personnalisationGraphiqueService.findAll();
   }
@@ -74,12 +72,11 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Get('owner/:ownerId')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   async getPersonnalisationByOwnerId(
     @Param('ownerId') ownerId: string,
   ): Promise<PersonnalisationGraphic> {
     try {
-      const user = await this.usersService.findOneById(ownerId);
+      const user = await this.usersService.findOneById(parseInt(ownerId));
       if (user?.role !== 'admin') {
         throw new UnauthorizedException(
           "Vous n'êtes pas autorisé à effectuer cette action",
@@ -99,7 +96,6 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   getProduit(@Param('id') id: string): Promise<PersonnalisationGraphic> {
     return this.personnalisationGraphiqueService.findOne(id);
   }
@@ -110,7 +106,6 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   async updateePersonnalisationGraphic(
     @Param('id') id: string,
     @Body() personnalisationGraphiqueDto: CreatePersonnalisationGraphiqueDto,
@@ -140,7 +135,6 @@ export class PersonnalisationGraphiqueController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   deleteePersonnalisationGraphic(@Param('id') id: string): Promise<void> {
     return this.personnalisationGraphiqueService.remove(id);
   }
